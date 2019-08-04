@@ -60,6 +60,7 @@ def my_callback2(channel):
                         LED(counter)
                         time.sleep(0.2)
 
+#Outputing to the LED
 def LED(count):
         if (count==0):
 		GPIO.output(LED_list, GPIO.LOW)
@@ -78,21 +79,26 @@ def LED(count):
 	elif(count==7):
 		GPIO.output(LED_list, (GPIO.HIGH, GPIO.HIGH, GPIO.HIGH))
 
+#Using Interrupts
 GPIO.add_event_detect(ButtonOne, GPIO.FALLING, callback=my_callback, bouncetime=300)
 GPIO.add_event_detect(ButtonTwo, GPIO.FALLING, callback=my_callback2, bouncetime=300)
 
+#Main method
 def main():
 	while True:
-		if __name__ == "__main__":
-		# Make sure the GPIO is stopped correctly
-			try:
-    				main()
-    			except KeyboardInterrupt:
-        			print("Exiting gracefully")
-        			# Turn off your GPIOs here
-				GPIO.output(LED_list, GPIO.LOW)
-        			GPIO.cleanup() #cleanup previous channel
-    			except e:
-        			GPIO.cleanup() #cleanup previous channel
-        			print("Some other error occurred")
-        			print(e.message)
+		my_callback(ButtonOne)
+		my_callback2(ButtonTwo)
+
+if __name__ == "__main__":
+# Make sure the GPIO is stopped correctly
+	try:
+			main()
+		except KeyboardInterrupt:
+			print("Exiting gracefully")
+			# Turn off your GPIOs here
+		GPIO.output(LED_list, GPIO.LOW)
+			GPIO.cleanup() #cleanup previous channel
+		except e:
+			GPIO.cleanup() #cleanup previous channel
+			print("Some other error occurred")
+			print(e.message)	
